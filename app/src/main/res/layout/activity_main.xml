@@ -13,5 +13,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="How do I make this read this?"
+        android:id="@+id/textView" />
+
+    <Button
+        android:text="Read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="169dp"
+        android:id="@+id/btnReadMe" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="This is a plain text edit text text box.  I want the text read in it by pushing the button."
+        android:ems="10"
+        android:id="@+id/txtReadMe"
+        android:layout_below="@+id/textView"
+        android:layout_alignEnd="@+id/btnReadMe"
+        android:layout_marginTop="36dp" />
 </RelativeLayout>
