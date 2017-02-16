@@ -2,12 +2,15 @@ package com.bishopireton.texttospeech;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Xml;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -28,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private EditText mEditText;
     private Button mFetchFeedButton;
+    private Button mReadButton;
     private SwipeRefreshLayout mSwipeLayout;
     private TextView mFeedTitleTextView;
     private TextView mFeedLinkTextView;
@@ -37,12 +42,56 @@ public class MainActivity extends AppCompatActivity {
     private String mFeedTitle;
     private String mFeedLink;
     private String mFeedDescription;
+    private TextToSpeech readMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mEditText = (EditText) findViewById(R.id.rssFeedEditText);
+        mFetchFeedButton = (Button) findViewById(R.id.fetchFeedButton);
+        mReadButton = (Button) findViewById(R.id.btnRead);
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        mFeedTitleTextView = (TextView) findViewById(R.id.feedTitle);
+        mFeedDescriptionTextView = (TextView) findViewById(R.id.feedDescription);
+        mFeedLinkTextView = (TextView) findViewById(R.id.feedLink);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        readMe=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    readMe.setLanguage(Locale.US);
+                }
+            }
+        });
+
+
+        mReadButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String toSpeak = mFeedDescriptionTextView.getText().toString();
+                    Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                    readMe.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            });
+
+        mFetchFeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchFeedTask().execute((Void) null);
+            }
+        });
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new FetchFeedTask().execute((Void) null);
+            }
+        });
     }
 
 
@@ -53,7 +102,10 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected void onPreExecute() {
             mSwipeLayout.setRefreshing(true);
+            //mEditText.setText("www.drudgereportfeed.com");
+            mEditText.setText("xkcd.com/rss.xml");
             urlLink = mEditText.getText().toString();
+
         }
 
         @Override
@@ -63,7 +115,7 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
             try {
                 if(!urlLink.startsWith("http://") && !urlLink.startsWith("https://"))
-                    urlLink = "http://" + urlLink;
+                    urlLink = "https://" + urlLink;
 
                 URL url = new URL(urlLink);
                 InputStream inputStream = url.openConnection().getInputStream();
@@ -89,7 +141,7 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
                 mRecyclerView.setAdapter(new RssFeedListAdapter(mFeedModelList));
             } else {
                 Toast.makeText(MainActivity.this,
-                        "Enter a valid Rss feed url",
+                        "Enter a valid Rss feed url: " + urlLink,
                         Toast.LENGTH_LONG).show();
             }
         }

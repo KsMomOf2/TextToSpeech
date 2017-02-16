@@ -10,20 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bishopireton.texttospeech.MainActivity">
 
-    <Button
-        android:id="@+id/fetchFeedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="Fetch" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_toStartOf="@id/fetchFeedButton"
         android:hint="Rss feed source">
+
+<!--   android:layout_toStartOf="@id/fetchFeedButton"> -->
 
         <EditText
             android:id="@+id/rssFeedEditText"
@@ -65,4 +59,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <Button
+        android:text="READ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRead"
+        android:layout_below="@+id/fetchFeedButton"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/swipeRefreshLayout" />
+
+    <Button
+        android:id="@+id/fetchFeedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fetch"
+        android:layout_above="@+id/feedTitle"
+        android:layout_alignStart="@+id/btnRead" />
 </RelativeLayout>
