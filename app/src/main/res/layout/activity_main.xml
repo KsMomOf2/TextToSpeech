@@ -10,29 +10,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bishopireton.texttospeech.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="How do I make this read this?"
-        android:id="@+id/textView" />
-
     <Button
-        android:text="Read"
+        android:id="@+id/fetchFeedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="169dp"
-        android:id="@+id/btnReadMe" />
+        android:layout_alignParentEnd="true"
+        android:text="Fetch" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
-        android:text="This is a plain text edit text text box.  I want the text read in it by pushing the button."
-        android:ems="10"
-        android:id="@+id/txtReadMe"
-        android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/btnReadMe"
-        android:layout_marginTop="36dp" />
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_toStartOf="@id/fetchFeedButton"
+        android:hint="Rss feed source">
+
+        <EditText
+            android:id="@+id/rssFeedEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/feedTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textInputLayout"
+        android:text="Feed Title: " />
+
+    <TextView
+        android:id="@+id/feedDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedTitle"
+        android:text="Feed Description: " />
+
+    <TextView
+        android:id="@+id/feedLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedDescription"
+        android:text="Feed Link: " />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/feedLink"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
