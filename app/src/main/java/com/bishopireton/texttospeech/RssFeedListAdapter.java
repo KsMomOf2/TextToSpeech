@@ -30,6 +30,8 @@ public class RssFeedListAdapter
         mRssFeedModels = rssFeedModels;
     }
 
+    public List<RssFeedModel> getFeedList() { return mRssFeedModels; }
+
     @Override
     public FeedModelViewHolder onCreateViewHolder(ViewGroup parent, int type) {
         View v = LayoutInflater.from(parent.getContext())
