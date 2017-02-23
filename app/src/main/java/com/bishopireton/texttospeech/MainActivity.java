@@ -78,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mReadButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String toSpeak = mFeedDescriptionTextView.getText().toString();
-             //       String toSpeak = "Trying";
-
+                    String toSpeak;
                     RssFeedListAdapter feedAdapter = (RssFeedListAdapter) mRecyclerView.getAdapter();
                     List<RssFeedModel> feed =  feedAdapter.getFeedList();
                     RssFeedModel rss = feed.get(13);
@@ -163,9 +161,7 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
     public List<RssFeedModel> parseFeed(InputStream inputStream) throws XmlPullParserException,
             IOException {
-        String title = null;
         String link = null;
-        String description = null;
         boolean isItem = false;
         List<RssFeedModel> items = new ArrayList<>();
 
@@ -203,28 +199,20 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
                     xmlPullParser.nextTag();
                 }
 
-                if (name.equalsIgnoreCase("title")) {
-                    title = result;
-                } else if (name.equalsIgnoreCase("link")) {
+               if (name.equalsIgnoreCase("link")) {
                     link = result;
-                } else if (name.equalsIgnoreCase("description")) {
-                    description = result;
-                }
+               }
 
-                if (title != null && link != null && description != null) {
+                if (link != null) {
                     if(isItem) {
-                            RssFeedModel item = new RssFeedModel(title, link, description);
+                            RssFeedModel item = new RssFeedModel(link);
                             items.add(item);
                         }
                     else {
-                        mFeedTitle = title;
                         mFeedLink = link;
-                        mFeedDescription = description;
-                    }
+                        }
 
-                    title = null;
                     link = null;
-                    description = null;
                     isItem = false;
                 }
             }
@@ -284,6 +272,7 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
                         Toast.LENGTH_LONG).show();
             }
         }
+// TODO change this from reading in an RssFeedModel to reading a regular HTML Page
 
         public List<RssFeedModel> parseFeed2(InputStream inputStream) throws XmlPullParserException,
                 IOException {
@@ -337,7 +326,7 @@ private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
 
                     if (title != null && link != null && description != null) {
                         if(isItem) {
-                            RssFeedModel item = new RssFeedModel(title, link, description);
+                            RssFeedModel item = new RssFeedModel(link);
                             items.add(item);
                         }
                         else {

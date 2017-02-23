@@ -40,19 +40,6 @@
         android:layout_below="@id/feedTitle"
         android:text="Feed Description: " />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/feedLink"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
     <Button
         android:text="READ"
         android:layout_width="wrap_content"
@@ -77,4 +64,21 @@
         android:text="Feed Link: "
         android:layout_below="@+id/feedDescription"
         android:layout_alignParentStart="true" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/feedLink">
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnRead" />
 </RelativeLayout>
