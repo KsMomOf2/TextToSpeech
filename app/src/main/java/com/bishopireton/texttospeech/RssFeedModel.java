@@ -7,8 +7,13 @@ package com.bishopireton.texttospeech;
 public class RssFeedModel {
 
     public String link;
+    public String title;
 
     public RssFeedModel(String link) {
         this.link = link;
-     }
+    }
+    public RssFeedModel(String link, String title) {
+        this.link = link;
+        this.title = title;
+    }
 }
